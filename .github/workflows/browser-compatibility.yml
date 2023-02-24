@@ -49,7 +49,7 @@ jobs:
       - name: Run playwright tests
         env:
           BROWSER: ${{ matrix.browsers }}
-        run: pnpm test -- --forbid-only
+        run: pnpm test
 
       - name: Upload test results
         if: ${{ failure() }}
