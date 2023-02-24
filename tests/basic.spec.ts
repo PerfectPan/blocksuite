@@ -32,7 +32,7 @@ import {
 } from './utils/asserts.js';
 import { test } from './utils/playwright.js';
 
-test('basic input', async ({ page }) => {
+test.only('basic input', async ({ page }) => {
   await enterPlaygroundRoom(page);
   await initEmptyParagraphState(page);
   await focusRichText(page);
