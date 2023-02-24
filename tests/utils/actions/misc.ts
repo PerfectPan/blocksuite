@@ -92,6 +92,7 @@ export async function enterPlaygroundRoom(
     room = generateRandomRoomId();
   }
   url.searchParams.set('room', room);
+  console.log('[URL]', url.toString());
   await page.goto(url.toString());
   await page.evaluate(() => {
     if (typeof window.$blocksuite !== 'object') {
@@ -103,6 +104,7 @@ export async function enterPlaygroundRoom(
   // See https://github.com/microsoft/playwright/discussions/17813
   page.on('console', message => {
     const ignore = shamefullyIgnoreConsoleMessage(message);
+    console.log(message);
     if (!ignore) {
       throw new Error('Unexpected console message: ' + message.text());
     }
