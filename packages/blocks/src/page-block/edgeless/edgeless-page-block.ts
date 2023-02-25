@@ -237,6 +237,9 @@ export class EdgelessPageBlockComponent
     // TODO: listen to new children
     this.pageModel.children.forEach(frame => {
       frame.propsUpdated.on(() => this._selection.syncSelectionRect());
+      frame.childrenUpdated.on(() => {
+        tryUpdateFrameSize(this.page, this.viewport.zoom);
+      });
     });
 
     this.signals.viewportUpdated.on(() => {
