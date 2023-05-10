@@ -29,6 +29,7 @@ export const HOTKEYS = {
   TAB: 'tab',
   SPACE: 'space',
   ESC: 'esc',
+  DELETE: 'delete',
 };
 
 export const MOVE_DETECT_THRESHOLD = 2;

@@ -75,27 +75,30 @@ export function bindEdgelessHotkeys(edgeless: EdgelessPageBlockComponent) {
     }
   });
   hotkey.withScope(scope, () => {
-    hotkey.addListener(HOTKEYS.BACKSPACE, (e: KeyboardEvent) => {
-      // TODO: add `selection-state` to handle `block`, `native`, `frame`, `shape`, etc.
-      deleteModelsByRange(edgeless.page);
+    hotkey.addListener(
+      `${HOTKEYS.BACKSPACE},${HOTKEYS.DELETE}`,
+      (e: KeyboardEvent) => {
+        // TODO: add `selection-state` to handle `block`, `native`, `frame`, `shape`, etc.
+        deleteModelsByRange(edgeless.page);
 
-      const { selected } = edgeless.getSelection().blockSelectionState;
-      selected.forEach(element => {
-        if (isTopLevelBlock(element)) {
-          const children = edgeless.page.root?.children ?? [];
-          // FIXME: should always keep at least 1 frame
-          if (children.length > 1) {
-            edgeless.page.deleteBlock(element);
+        const { selected } = edgeless.getSelection().blockSelectionState;
+        selected.forEach(element => {
+          if (isTopLevelBlock(element)) {
+            const children = edgeless.page.root?.children ?? [];
+            // FIXME: should always keep at least 1 frame
+            if (children.length > 1) {
+              edgeless.page.deleteBlock(element);
+            }
+          } else {
+            edgeless.surface.removeElement(element.id);
           }
-        } else {
-          edgeless.surface.removeElement(element.id);
-        }
-      });
-      edgeless.getSelection().currentController.clearSelection();
-      edgeless.slots.selectionUpdated.emit(
-        edgeless.getSelection().blockSelectionState
-      );
-    });
+        });
+        edgeless.getSelection().currentController.clearSelection();
+        edgeless.slots.selectionUpdated.emit(
+          edgeless.getSelection().blockSelectionState
+        );
+      }
+    );
     hotkey.addListener(HOTKEYS.UP, e => handleUp(e, edgeless.page));
     hotkey.addListener(HOTKEYS.DOWN, e => handleDown(e, edgeless.page));
 
